@@ -1,0 +1,126 @@
+{% load my_filter %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .active {
+            background-color: salmon;
+        }
+        .active2 {
+            background-color: orange;
+        }
+    </style>
+</head>
+<body>
+<h3>hi {{ name }}</h3>
+<h3>深度查询:句点符.</h3>
+<p>姓名: {{ name }}</p>
+<p>年龄: {{ age }}</p>
+<p>婚否: {{ is_married }}</p>
+<p>四大名著: {{ book_list }}</p>
+<p>四大名著第一本: {{ book_list.0 }}</p>
+<p>四大名著第二本: {{ book_list.1 }}</p>
+<p>四大名著第三本: {{ book_list.2 }}</p>
+<p>四大名著第四本: {{ book_list.3 }}</p>
+<p>个人信息: {{ admin }}</p>
+<p>个人信息: {{ admin.name }}</p>
+<p>个人信息: {{ admin.age }}</p>
+<p>书名: {{ book01 }}</p>
+<p>书名: {{ book01.title }}</p>
+<p>价格: {{ book01.price }}</p>
+<p>第二本书名: {{ books.1.title }}</p>
+<p>第二本书价格: {{ books.1.price }}</p>
+
+<h3>内置过滤器</h3>
+<p>最后一本: {{ books|last }}</p>
+<p>books总共有: {{ books|length }}本书籍</p>
+<p>books2展示: {{ books2|default:"暂时没有相关书籍" }}</p>
+<p>日期: {{ now_time|date:"Y-m-d" }}</p>
+<p>详细日期: {{ now_time|date:"Y/m/d" }}</p>
+<p>文件大小: {{ file_size|filesizeformat }}</p>
+<p>{{ content|truncatechars:5 }}</p>
+<p>链接: {{ link|safe }}</p>
+<p>评论: {{ comment }}</p>
+<p>第二本书价格+100 : {{ books.1.price|add:100 }}</p>
+<p>内置过滤器</p>
+<p>手机号：{{ my_tel|mobile_fmt }}</p>
+<h3>标签语法</h3>
+{% if age > 18 %}
+    <p>成年人电影</p>
+{% else %}
+    <p>未成年人电影</p>
+{% endif %}
+<div>
+    成绩:
+    {% if score > 90 %}
+        <span>优秀</span>
+    {% elif score > 80 %}
+        <span>良好</span>
+    {% elif score > 60 %}
+        <span>及格</span>
+    {% else %}
+        <span>不及格</span>
+    {% endif %}
+</div>
+<div>
+    {% if name %}
+        <span>{{ name }} :用户</span>
+    {% else %}
+        <span>请登录</span>
+    {% endif %}
+</div>
+<ul>
+    {% for book in book_list %}
+        <li>{{ book }}</li>
+    {% endfor %}
+</ul>
+<table width="800px" border="1" cellspacing="0">
+    <tr>
+        <th>序号</th>
+        <th>书籍名称</th>
+        <th>价格</th>
+        <th>出版社</th>
+    </tr>
+    {#    {% for book_obj in books %}#}
+    {#        {% if forloop.first %}#}
+    {#            <tr class="active">#}
+    {#                <td>{{ forloop.counter }}</td>#}
+    {#                <td>{{ book_obj.title }}</td>#}
+    {#                <td>{{ book_obj.price }}</td>#}
+    {#                <td>{{ book_obj.publish }}</td>#}
+    {#            </tr>#}
+    {#        {% else %}#}
+    {#            <tr>#}
+    {#                <td>{{ forloop.counter }}</td>#}
+    {#                <td>{{ book_obj.title }}</td>#}
+    {#                <td>{{ book_obj.price }}</td>#}
+    {#                <td>{{ book_obj.publish }}</td>#}
+    {#            </tr>#}
+    {#        {% endif %}#}
+    {#    {% endfor %}#}
+
+    {% for book_obj in books %}
+        {% if book_obj.price > 100 %}
+            <tr class="active2">
+                <td>{{ forloop.counter }}</td>
+                <td>{{ book_obj.title }}</td>
+                <td>{{ book_obj.price }}</td>
+                <td>{{ book_obj.publish }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ book_obj.title }}</td>
+                <td>{{ book_obj.price }}</td>
+                <td>{{ book_obj.publish }}</td>
+            </tr>
+        {% endif %}
+
+    {% endfor %}
+
+</table>
+{% include "ad.html" %}
+</body>
+</html>
